@@ -59,6 +59,7 @@ exports.likeSauce = (req, res, next) => {
     const like = req.body.like; // Récupération de la valeur du like depuis le corps de la requête
     if (like === 1) { // Si l'utilisateur aime la sauce (bouton j'aime)
         Sauce.updateOne({ _id: req.params.id }, { $inc: { likes: 1 }, $push: { usersLiked: req.body.userId }, _id: req.params.id })
+        // deux arguments : le premier spécifie les critères de recherche deuxième spécifie les modifications à appliquer
             .then(() => res.status(200).json({ message: 'Vous aimez cette sauce' }))
             .catch(error => res.status(400).json({ error }));
     } else if (like === -1) { // Si l'utilisateur n'aime pas la sauce (bouton je n'aime pas)
@@ -68,7 +69,7 @@ exports.likeSauce = (req, res, next) => {
     } else { // Annulation du like ou du dislike
         Sauce.findOne({ _id: req.params.id })
             .then(sauce => {
-                if (sauce.usersLiked.indexOf(req.body.userId) !== -1) { // Si l'utilisateur avait déjà liké la sauce
+                if (sauce.usersLiked.indexOf(req.body.userId) !== -1) { // Si l'utilisateur déja présent dans les liker
                     Sauce.updateOne({ _id: req.params.id }, { $inc: { likes: -1 }, $pull: { usersLiked: req.body.userId }, _id: req.params.id })
                         .then(() => res.status(200).json({ message: 'Vous n’aimez plus cette sauce' }))
                         .catch(error => res.status(400).json({ error }));
