@@ -4,8 +4,8 @@ const rateLimit = require('express-rate-limit'); //  express-rate-limit pour la 
 const userCtrl = require('../controllers/user'); // Importation du contrôleur pour les utilisateurs
 
 const passLimiter = rateLimit({ // Configuration du rate limiter pour les tentatives de connexion
-    windowMs: 2 * 60 * 1000, // Temps défini (en minutes) pour tester l'application
-    max: 3 // Nombre maximum d'essais par adresse IP
+    windowMs: 30 * 1000, // 30s pour tester l'application, a alonger après
+    max: 10 //10 tentatives pour tes a diminuer a près.
 });
 
 // Routes pour créer un compte et se connecter

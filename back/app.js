@@ -28,7 +28,7 @@ app.use(mongoSanitize()); // Middleware express-mongo-sanitize pour prévenir le
 
 app.use(helmet()); // Middleware Helmet pour la sécurité de l'application
 
-app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' })); // Définit la politique de ressource d'origine croisée
+app.use(helmet.crossOriginResourcePolicy({ policy: 'same-site' })); // Par sécurité cors même site 
 
 app.use('/images', express.static(path.join(__dirname, 'images'))); // Définit un chemin statique pour les images
 app.use('/api/sauces', saucesRoutes); // Définit les routes pour les sauces
