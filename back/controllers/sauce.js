@@ -7,6 +7,8 @@ const fs = require('fs'); // Importation du module fs (file system) pour la mani
 exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce); // Extraction de l'objet sauce depuis le corps de la requête
     delete sauceObject._id; // Suppression de l'ID pour récupérer celui de MongoDB lors de l'enregistrement
+    // sécurité supprimer sauceOject.userID pour éviter injection
+    // delete sauceObject._id;
     const sauce = new Sauce({ // Création d'une nouvelle instance du modèle Sauce
         ...sauceObject,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, // Construction de l'URL de l'image en utilisant le protocole, le nom d'hôte et le nom du fichier
