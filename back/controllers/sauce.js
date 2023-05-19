@@ -38,9 +38,7 @@ exports.modifySauce = (req, res, next) => {
 exports.deleteSauce = (req, res, next) => {
     Sauce.findOne({ _id: req.params.id })
         .then(sauce => {
-            if (!sauce) { // Vérification si la sauce existe
-                return res.status(404).json({ error: 'Sauce not found' });
-            }
+            
             const filename = sauce.imageUrl.split('/images/')[1];
             fs.unlink(`images/${filename}`, () => {
                 Sauce.deleteOne({ _id: req.params.id })
@@ -48,7 +46,7 @@ exports.deleteSauce = (req, res, next) => {
                     .catch(error => res.status(400).json({ error }));
             });
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(error => res.status(500).json({ error : 'sauce non trouvée' }));
 };
 
 
