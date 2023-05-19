@@ -36,16 +36,21 @@ exports.modifySauce = (req, res, next) => {
 
 // Suppression d'une sauce
 exports.deleteSauce = (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id }) // Recherche de la sauce à supprimer dans la base de données
+    Sauce.findOne({ _id: req.params.id })
         .then(sauce => {
-            const filename = sauce.imageUrl.split('/images/')[1]; // Récupération du nom du fichier image à partir de l'URL
-            fs.unlink(`images/${filename}`, () => { // Suppression du fichier image du serveur
-                Sauce.deleteOne({ _id: req.params.id }) // Suppression de la sauce de la base de données
+            if (!sauce) { // Vérification si la sauce existe
+                return res.status(404).json({ error: 'Sauce not found' });
+            }
+            const filename = sauce.imageUrl.split('/images/')[1];
+            fs.unlink(`images/${filename}`, () => {
+                Sauce.deleteOne({ _id: req.params.id })
                     .then(() => res.status(200).json({ message: 'Sauce supprimée' }))
                     .catch(error => res.status(400).json({ error }));
             });
-        });
+        })
+        .catch(error => res.status(500).json({ error }));
 };
+
 
 // Récupération de toutes les sauces
 exports.getAllSauces = (req, res, next) => {
