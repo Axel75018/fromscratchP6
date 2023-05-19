@@ -61,7 +61,7 @@ exports.login = (req, res, next) => {
             userId: user._id,
             token: jwt.sign( // Génération d'un token de session pour l'utilisateur connecté
               { userId: user._id }, //payload
-              'RANDOM_TOKEN_SECRET', // Clé secrète utilisée pour signer le token
+              'M A M E S K G C A L M L D I K L N G B O S H E D J D D D F B B A B F O M A I A K B I S H M _ H N I J A B M _ _ _ C H B C M L D H _ A D _ S H A N F _ K L F S C N O H _ M _ L H A B H N O O E D F E J J M _ _ K D L K E O J G O J O A E H H H O L C L M M A G M K', // Clé secrète utilisée pour signer le token
               // a changer en prod par phrase plus longue et abstraite
               { expiresIn: '24h' } // Durée de validité du token (24 heures dans cet exemple)
             )

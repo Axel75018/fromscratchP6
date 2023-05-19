@@ -11,24 +11,27 @@ exports.createSauce = (req, res, next) => {
     // delete sauceObject._id;
     const sauce = new Sauce({ // Création d'une nouvelle instance du modèle Sauce
         ...sauceObject,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, // Construction de l'URL de l'image en utilisant le protocole, le nom d'hôte et le nom du fichier
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, // Construction de l'URL de l'image 
+        //en utilisant le protocole, le nom d'hôte et le nom du fichier
     });
     sauce.save() // Sauvegarde de la sauce dans la base de données
-        .then(() => res.status(201).json({ message: 'Sauce sauvegardée' }))
+        .then(() => res.status(201).json({ message: 'Sauce enregistrée' }))
         .catch(error => res.status(400).json({ error }));
     console.log(sauce);
 };
 
 // Modification d'une sauce
 exports.modifySauce = (req, res, next) => {
-    const sauceObject = req.file ? { // Vérification si la modification concerne le fichier ou seulement les données de la sauce
+    const sauceObject = req.file ? { // Vérification présence file dans la req
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
+    // suppression user_id ?
     Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
         .then(() => res.status(200).json({ message: 'Sauce modifiée' }))
         .catch(() => res.status(400).json({ error }));
 };
+
 
 // Suppression d'une sauce
 exports.deleteSauce = (req, res, next) => {
