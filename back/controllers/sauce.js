@@ -22,15 +22,16 @@ exports.createSauce = (req, res, next) => {
 
 // Modification d'une sauce
 exports.modifySauce = (req, res, next) => {
-    const sauceObject = req.file ? { // Vérification présence file dans la req
-        ...JSON.parse(req.body.sauce),
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-    } : { ...req.body };
-    // suppression user_id ?
-    Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
-        .then(() => res.status(200).json({ message: 'Sauce modifiée' }))
-        .catch(() => res.status(400).json({ error }));
+    const sauceObject = req.file ? { // Vérification de la présence d'un fichier dans la requête
+        ...JSON.parse(req.body.sauce), // spread ... Extraction de l'objet sauce depuis le corps de la requête et parsing en JSON
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` // Construction de l'URL de l'image en utilisant le protocole, le nom d'hôte et le nom du fichier
+    } : { ...req.body }; // Si aucun fichier n'est présent, utiliser le corps de la requête tel quel
+    
+    Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id }) // Mise à jour de la sauce dans la base de données
+        .then(() => res.status(200).json({ message: 'Sauce modifiée' })) // Envoi d'une réponse JSON en cas de succès
+        .catch(() => res.status(400).json({ error })); // Envoi d'une réponse JSON en cas d'erreur
 };
+
 
 
 // Suppression d'une sauce

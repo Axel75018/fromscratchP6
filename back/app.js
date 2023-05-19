@@ -4,7 +4,7 @@ const bodyParser = require('body-parser'); // Importation du module body-parser 
 const saucesRoutes = require('./routes/sauce'); // Importation des routes pour les sauces
 const userRoutes = require('./routes/user'); // Importation des routes pour les utilisateurs
 const path = require('path'); // Importation du module path pour la gestion des chemins de fichiers
-const mongoSanitize = require('express-mongo-sanitize'); // Importation du module express-mongo-sanitize pour prévenir les injections
+const mongoSanitize = require('express-mongo-sanitize'); //  prévenir les injections dans mongo DB
 const helmet = require("helmet"); // Importation du module Helmet pour la sécurité des applications Express
 const app = express(); 
 
