@@ -8,7 +8,7 @@ exports.createSauce = (req, res, next) => {
     const sauceObject = JSON.parse(req.body.sauce); // Extraction de l'objet sauce depuis le corps de la requête
     delete sauceObject._id; // Suppression de l'ID pour récupérer celui de MongoDB lors de l'enregistrement
     // sécurité supprimer sauceOject.userID pour éviter injection
-    // delete sauceObject._id;
+    delete sauceObject._userId; // ne jamais faire confiance au client
     const sauce = new Sauce({ // Création d'une nouvelle instance du modèle Sauce
         ...sauceObject,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`, // Construction de l'URL de l'image 
@@ -36,18 +36,20 @@ exports.modifySauce = (req, res, next) => {
 
 // Suppression d'une sauce
 exports.deleteSauce = (req, res, next) => {
-    Sauce.findOne({ _id: req.params.id })
-        .then(sauce => {
+    delete sauceObject._userId; // ne jamais faire confiance au client
+    Sauce.findOne({ _id: req.params.id }) // Recherche de la sauce  utilisant l'ID fourni
+        .then(sauce => { // callback  
             
-            const filename = sauce.imageUrl.split('/images/')[1];
-            fs.unlink(`images/${filename}`, () => {
-                Sauce.deleteOne({ _id: req.params.id })
-                    .then(() => res.status(200).json({ message: 'Sauce supprimée' }))
-                    .catch(error => res.status(400).json({ error }));
+            const filename = sauce.imageUrl.split('/images/')[1]; // Extraction du nom du fichier image à partir de l'URL de l'image dans la sauce
+            fs.unlink(`images/${filename}`, () => { // Suppression du fichier image du serveur en utilisant la fonction unlink du module fs. Une fois la suppression terminée, on exécute une fonction de rappel
+                Sauce.deleteOne({ _id: req.params.id }) // Suppression de la sauce de la base de données en utilisant l'ID fourni
+                    .then(() => res.status(200).json({ message: 'Sauce supprimée' })) 
+                    .catch(error => res.status(400).json({ error })); 
             });
         })
-        .catch(error => res.status(500).json({ error : 'sauce non trouvée' }));
+        .catch(error => res.status(500).json({ error: 'sauce non trouvée' })); // Si la recherche de la sauce échoue (aucune sauce n'est trouvée avec l'ID fourni), on envoie une réponse JSON avec un code de statut 500 (Erreur interne du serveur) et un message indiquant que la sauce n'a pas été trouvée
 };
+
 
 
 // Récupération de toutes les sauces
