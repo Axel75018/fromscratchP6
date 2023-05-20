@@ -26,7 +26,9 @@ app.use(bodyParser.json()); // Middleware body-parser pour analyser les corps de
 
 app.use(mongoSanitize()); // Middleware express-mongo-sanitize pour prévenir les injections
 
-app.use(helmet()); // Middleware Helmet pour la sécurité de l'application
+app.use(helmet()); // Middleware Helmet pour la sécurité de l'application masque X-Powered-By
+//  attaques CSRF (Cross-Site Request Forgery) en ajoutant des jetons CSRF aux formulaires et en vérifiant leur validité lors des requêtes POST.
+// Désactivation de la mise en cache du navigateur : Helmet configure les en-têtes de cache pour empêcher le navigateur de mettre en cache les ressources sensibles et ainsi réduire les risques de fuites d'informations.
 
 app.use(helmet.crossOriginResourcePolicy({ policy: 'same-site' })); // Par sécurité cors même site 
 
