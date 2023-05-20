@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt'); // Importation du package de chiffrement
+const bcrypt = require('bcrypt'); // Importation du package de hashage , salage
 const User = require('../schema/user'); // Importation du modèle User
 const jwt = require('jsonwebtoken'); // Importation du package pour générer des tokens
 const emailValidator = require('email-validator'); // Importation du package de validation d'adresse e-mail
