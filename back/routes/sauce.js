@@ -12,7 +12,7 @@ router.delete('/:id', auth, sauceCtrl.deleteSauce); // Route pour supprimer une 
 router.post('/:id/like', auth, sauceCtrl.likeSauce); // Route pour gérer les likes d'une sauce (requiert une authentification)
 
 // Routes pour récupérer toutes les sauces et une sauce spécifique
-router.get('/', sauceCtrl.getAllSauces); // Route pour récupérer toutes les sauces (requiert une authentification)
-router.get('/:id', sauceCtrl.getOneSauce); // Route pour récupérer une sauce spécifique (requiert une authentification)
+router.get('/',auth, sauceCtrl.getAllSauces); // Route pour récupérer toutes les sauces (requiert une authentification)
+router.get('/:id',auth, sauceCtrl.getOneSauce); // Route pour récupérer une sauce spécifique (requiert une authentification)
 
 module.exports = router; // Exportation du routeur
