@@ -36,7 +36,7 @@ exports.modifySauce = (req, res, next) => {
 
 // Suppression d'une sauce
 exports.deleteSauce = (req, res, next) => {
-    delete sauceObject._userId; // ne jamais faire confiance au client
+    //delete sauceObject._userId; // ne jamais faire confiance au client
     Sauce.findOne({ _id: req.params.id }) // Recherche de la sauce  utilisant l'ID fourni
         .then(sauce => { // callback  
             
