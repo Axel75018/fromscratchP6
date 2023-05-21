@@ -5,7 +5,7 @@ const saucesRoutes = require('./routes/sauce'); // Importation des routes pour l
 const userRoutes = require('./routes/user'); // Importation des routes pour les utilisateurs
 const path = require('path'); // Importation du module path pour la gestion des chemins de fichiers
 const mongoSanitize = require('express-mongo-sanitize'); //  prévenir les injections dans mongo DB
-const helmet = require("helmet"); // Importation du module Helmet pour la sécurité des applications Express
+const helmet = require("helmet"); // couche de protection supplémentaire en ajoutant des en-têtes de sécurité aux requêtes et réponses HTTP en sus de COR
 const app = express(); 
 
 // Connexion à MongoDB
