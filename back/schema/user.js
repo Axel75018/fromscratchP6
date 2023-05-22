@@ -3,7 +3,7 @@ const uniqueValidator = require('mongoose-unique-validator'); // Importation du 
 
 const userSchema = mongoose.Schema({ // Définition du schéma pour le modèle utilisateur
     email: { type: String, required: true, unique: true }, // Champ email avec contrainte de valeur requise et d'unicité flag pour unique validator
-    password: { type: String, required: true } // Champ password avec contrainte de valeur requise
+    password: { type: String, required: true } // Champ password hash du password
 });
 
 userSchema.plugin(uniqueValidator); // Application du plugin mongoose-unique-validator au schéma utilisateur

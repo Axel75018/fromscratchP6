@@ -22,7 +22,7 @@ exports.createSauce = (req, res, next) => {
 
 // Modification d'une sauce
 exports.modifySauce = (req, res, next) => {
-    const sauceObject = req.file ? { // Vérification de la présence d'un fichier dans la requête
+    const sauceObject = req.file ? { //  req.file true Vérification operateur ternaire de la présence d'un fichier dans la requête
         ...JSON.parse(req.body.sauce), // spread ... Extraction de l'objet sauce depuis le corps de la requête et parsing en JSON
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}` // Construction de l'URL de l'image en utilisant le protocole, le nom d'hôte et le nom du fichier
     } : { ...req.body }; // Si aucun fichier n'est présent, utiliser le corps de la requête tel quel
@@ -68,12 +68,13 @@ exports.getOneSauce = (req, res, next) => {
 // Gestion des likes et dislikes d'une sauce
 exports.likeSauce = (req, res, next) => {
     const like = req.body.like; // Récupération de la valeur du like depuis le corps de la requête
-    if (like === 1) { // Si l'utilisateur aime la sauce (bouton j'aime)
+    if (like === 1) { // l'utilisateur aime la sauce 
         Sauce.updateOne({ _id: req.params.id }, { $inc: { likes: 1 }, $push: { usersLiked: req.body.userId }, _id: req.params.id })
         // deux arguments : le premier spécifie les critères de recherche deuxième spécifie les modifications à appliquer
+        // $inc incrémente $push rajoute dans le tableau 
             .then(() => res.status(200).json({ message: 'Vous aimez cette sauce' }))
             .catch(error => res.status(400).json({ error }));
-    } else if (like === -1) { // Si l'utilisateur n'aime pas la sauce (bouton je n'aime pas)
+    } else if (like === -1) { // l'utilisateur n'aime pas la sauce 
         Sauce.updateOne({ _id: req.params.id }, { $inc: { dislikes: 1 }, $push: { usersDisliked: req.body.userId }, _id: req.params.id })
             .then(() => res.status(200).json({ message: 'Vous n’aimez pas cette sauce' }))
             .catch(error => res.status(400).json({ error }));

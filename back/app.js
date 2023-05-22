@@ -1,11 +1,12 @@
 const express = require('express'); 
 const mongoose = require('mongoose'); 
-const bodyParser = require('body-parser'); // Importation du module body-parser pour analyser les corps de requête
 const saucesRoutes = require('./routes/sauce'); // Importation des routes pour les sauces
 const userRoutes = require('./routes/user'); // Importation des routes pour les utilisateurs
+const bodyParser = require('body-parser'); // Importation du module body-parser pour analyser les corps de requête
 const path = require('path'); // Importation du module path pour la gestion des chemins de fichiers
 const mongoSanitize = require('express-mongo-sanitize'); //  prévenir les injections dans mongo DB
 const helmet = require("helmet"); // couche de protection supplémentaire en ajoutant des en-têtes de sécurité aux requêtes et réponses HTTP en sus de COR
+
 const app = express(); 
 
 // Connexion à MongoDB

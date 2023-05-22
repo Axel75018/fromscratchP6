@@ -52,7 +52,7 @@ exports.login = (req, res, next) => {
       if (!user) { // Si l'utilisateur n'est pas trouvé
         return res.status(401).json({ error: 'Paire identifiant/mot de passe incorrect' });
       }
-      bcrypt.compare(req.body.password, user.password) // Comparaison du mot de passe envoyé avec celui stocké dans la base de données
+      bcrypt.compare(req.body.password, user.password) // Comparaison du hash mot de passe envoyé avec le hash celui stocké dans la base de données
         .then(valid => {
           if (!valid) { // Si les mots de passe ne correspondent pas
             return res.status(401).json({ error: 'Paire identifiant/mot de passe incorrect' });
@@ -60,9 +60,9 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             userId: user._id,
             token: jwt.sign( // Génération d'un token de session pour l'utilisateur connecté
-              { userId: user._id }, //payload
+              { userId: user._id }, //payload userID pas le mail
               'M A M E S K G C A L M L D I K L N G B O S H E D J D D D F B B A B F O M A I A K B I S H M _ H N I J A B M _ _ _ C H B C M L D H _ A D _ S H A N F _ K L F S C N O H _ M _ L H A B H N O O E D F E J J M _ _ K D L K E O J G O J O A E H H H O L C L M M A G M K', // Clé secrète utilisée pour signer le token
-              // a changer en prod par phrase plus longue et abstraite
+              // changé en prod par phrase plus longue et abstraite
               { expiresIn: '24h' } // Durée de validité du token (24 heures dans cet exemple)
             )
           });
