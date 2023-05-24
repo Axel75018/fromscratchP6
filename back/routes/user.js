@@ -4,7 +4,7 @@ const rateLimit = require('express-rate-limit'); //  express-rate-limit pour la 
 const userCtrl = require('../controllers/user'); // Importation du contrôleur pour les utilisateurs
 
 const passLimiter = rateLimit({ // Configuration du rate limiter pour les tentatives de connexion
-    windowMs: 30 * 1000, // 30s pour tester l'application, a alonger après
+    windowMs: 3 * 1000, // 3s pour tester l'application, a alonger après
     max: 10 //10 tentatives pour tes a diminuer a près.
 });
 
