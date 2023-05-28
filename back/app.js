@@ -1,4 +1,5 @@
 const express = require('express'); 
+require('dotenv').config();
 const mongoose = require('mongoose'); 
 const saucesRoutes = require('./routes/sauce'); // Importation des routes pour les sauces
 const userRoutes = require('./routes/user'); // Importation des routes pour les utilisateurs
@@ -10,7 +11,8 @@ const helmet = require("helmet"); // couche de protection supplémentaire en ajo
 const app = express(); 
 
 // Connexion à MongoDB
-mongoose.connect('mongodb+srv://axelp6:GnZGVdaduEUael5k@axelp6.i4j3ykz.mongodb.net/?retryWrites=true&w=majority',
+const mdbLog = process.env.LOGINMDB;
+mongoose.connect(mdbLog,
     { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));

@@ -1,4 +1,5 @@
 const http = require('http'); // Importation du module http intégré à Node.js
+
 const app = require('./app'); // Importation du module app depuis le fichier app.js
 
 // Fonction pour normaliser le port
